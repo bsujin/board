@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="board">
+	<!-- select 된 컬럼과 resultType에 기술된 클래스의 필드 이름이 동일하면 자동으로 값을 넣어준다 resultType 
+		: 한 행의 정보를 저장할 수 있는 클래스 타입을 명시 -->
+	<select id="selectMember" resultType="userVo" parameterType="String">
+		SELECT *
+		FROM member
+		WHERE user_id = #{value}
+	</select>
+	
+	<select id="selectBoard" resultType="boardVo" parameterType="String">
+		SELECT *
+		FROM board
+		WHERE user_id = #{value}
+		order by board_no
+	</select>
+	
+	<select id="selectActBoard" resultType="boardVo" parameterType="String">
+		SELECT *
+		FROM board
+		WHERE user_id = #{value}
+		order by board_no
+	</select>
+	
+	<select id="selectBoardList" resultType="blistVo" parameterType="int">
+		SELECT *
+		FROM boardList
+		WHERE board_no= #{value}
+	</select>
+	
+	<!-- 게시판 등록 -->
+	<insert id="insertBoard" parameterType="boardVo">
+		INSERT INTO board
+		(board_no, user_id, board_nm, activation)
+		values  (seq_bno.nextval, #{user_id}, #{board_nm}, #{activation})
+	</insert>
+	
+	<!-- 게시판 수정 -->
+	<update id="modifyBoard" parameterType="boardVo">
+		UPDATE board SET activation = #{activation}
+		WHERE user_id = #{user_id} and board_no = #{board_no}
+	</update>	
+	
+	
+</mapper>
+
+
+
+
+
+
+
